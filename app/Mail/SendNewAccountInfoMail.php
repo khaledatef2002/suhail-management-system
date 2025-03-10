@@ -14,13 +14,15 @@ class SendNewAccountInfoMail extends Mailable
     use Queueable, SerializesModels;
 
     private $user;
+    private $password;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(User $user)
+    public function __construct(User $user, String $password)
     {
         $this->user = $user;
+        $this->password = $password;
     }
 
     /**
@@ -43,7 +45,7 @@ class SendNewAccountInfoMail extends Mailable
             with: [
                 'account_type' => $this->user->roles()->first()->name,
                 'email' => $this->user->email,
-                'password' => $this->user->password,
+                'password' => $this->password,
             ]
         );
     }

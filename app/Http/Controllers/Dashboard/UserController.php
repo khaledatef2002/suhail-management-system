@@ -113,7 +113,7 @@ class UserController extends Controller implements HasMiddleware
 
         if($request->with_email == true)
         {
-            Mail::to($user->email)->send(new SendNewAccountInfoMail($user));
+            Mail::to($user->email)->send(new SendNewAccountInfoMail($user, $data['password']));
         }
 
         return response()->json(['message' => __('dashboard.user_created')]);
