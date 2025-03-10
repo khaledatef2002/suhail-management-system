@@ -30,26 +30,16 @@
             <div id="two-column-menu">
             </div>
             <ul class="navbar-nav" id="navbar-nav">
-                {{-- <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link menu-link {{ Route::currentRouteName() ==  'dashboard.index' ? 'active' : ''}}" href="{{ route('dashboard.index') }}" role="button">
                         <i class="ri-home-3-fill"></i> <span>@lang('dashboard.home')</span>
-                    </a>
-                </li> --}}
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ Route::currentRouteName() ==  'dashboard.tenants.index' ? 'active' : ''}}" href="{{ route('dashboard.tenants.index') }}" role="button">
-                        <i class="ri-organization-chart"></i> <span>@lang('dashboard.tenants')</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Route::currentRouteName() ==  'dashboard.users.index' ? 'active' : ''}}" href="{{ route('dashboard.users.index') }}" role="button">
                         <i class="ri-user-fill"></i> <span>@lang('dashboard.users')</span>
                     </a>
-                </li> <!-- End Website Settings Menu -->
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ Route::currentRouteName() ==  'dashboard.roles.index' ? 'active' : ''}}" href="{{ route('dashboard.roles.index') }}" role="button">
-                        <i class="ri-key-2-fill"></i> <span>@lang('dashboard.roles')</span>
-                    </a>
-                </li> <!-- End Website Settings Menu -->
+                </li>
             </ul>
         </div>
         <!-- Sidebar -->

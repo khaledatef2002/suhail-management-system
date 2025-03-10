@@ -59,5 +59,5 @@
 @endsection
 
 @section('custom-js')
-    <script src="{{ asset('back/js/users.js') }}"></script>
+    <script src="{{ asset('back/js/users.js') }}" type="module"></script>
 @endsection

@@ -66,9 +66,9 @@
                 <div class="dropdown ms-sm-3 header-item topbar-user">
                     <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
-                            {{-- <img class="rounded-circle header-profile-user" src="{{ Auth::user()->display_image }}" alt="Header Avatar"> --}}
+                            <img class="rounded-circle header-profile-user" src="{{ Auth::user()->display_image }}" alt="Header Avatar">
                             <span class="text-start ms-xl-2">
-                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ Auth::user()->name }}</span>
+                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ Auth::user()->full_name }}</span>
                                 <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">{{ Auth::user()->getRoleNames()[0] }}</span>
                             </span>
                         </span>
@@ -86,7 +86,7 @@
                         <a class="dropdown-item" href="auth-lockscreen-basic"><i class="mdi mdi-lock text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Lock screen</span></a> --}}
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <submit class="dropdown-item" onclick="event.preventDefault(); this.closest('form').submit();"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></submit>
+                            <submit class="dropdown-item" onclick="event.preventDefault(); this.closest('form').submit();" role="button"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></submit>
                         </form>
                     </div>
                 </div>

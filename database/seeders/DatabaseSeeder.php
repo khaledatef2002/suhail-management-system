@@ -19,10 +19,16 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        User::create([
-            'name' => 'khaled',
+        $user = User::create([
+            'first_name' => 'khaled',
+            'last_name' => 'atef',
             'email' => 'khaledatef312@gmail.com',
             'password' => bcrypt('123456789'),
+            'date_of_birth' => '2002-12-24',
+            'country_code' => 20,
+            'phone_number' => '01010419841',
         ]);
+        $user->assignRole('manager');
+
     }
 }

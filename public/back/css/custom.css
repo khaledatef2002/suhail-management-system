@@ -35,3 +35,14 @@ div.password-toggler i
     top: 50%;
     transform: translateY(-50%);
 }
+
+div.iti:has(input.form-control)
+{
+  width: 100%;
+}
+
+.iti__search-input
+{
+  outline: none;
+  padding: 5px 10px;
+}

@@ -48,6 +48,7 @@
     <link href="{{ asset('back/libs/sweetalert2/sweetalert2.all.min.js') }}" rel="stylesheet" type="text-/css" />
     <!-- Icons Css -->
     <link href="{{ asset('back') }}/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('back/libs/intl-tel-input/css/intlTelInput.css') }}">
     <!-- custom Css-->
     <link href="{{ asset('back') }}/css/custom.css" rel="stylesheet" type="text/css" />
 </head>

@@ -4,7 +4,7 @@ const enable_login = function()
 {
     document.querySelector("form#login-form")?.addEventListener("submit", async function(e) {
         e.preventDefault()
-        const form = $(this)
+        
         const formData = new FormData(this)
         
         const submit_button = $(this).find("button[type='submit']")

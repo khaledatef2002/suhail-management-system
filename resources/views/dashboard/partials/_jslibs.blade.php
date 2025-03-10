@@ -45,6 +45,8 @@
 <!-- ckeditor -->
 <script src="{{ asset('back/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
 
+<script src="{{ asset('back/libs/intl-tel-input/js/intlTelInput.min.js') }}"></script>
+
 @yield('additional-js-libs')
 
 <!-- App js -->

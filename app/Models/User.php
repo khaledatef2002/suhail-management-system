@@ -6,11 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -18,9 +19,13 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
+        'image',
+        'date_of_birth',
+        'phone_number',
     ];
 
     /**
@@ -44,5 +49,36 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function getFullNameAttribute(): string
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function created_tasks()
+    {
+        return $this->hasMany(Task::class, 'creator_id');
+    }
+    public function assigned_tasks()
+    {
+        return $this->hasMany(Task::class, 'assignee_id');
+    }
+    public function messages()
+    {
+        return $this->hasMany(TaskMessage::class);
+    }
+    public function attachments()
+    {
+        return $this->hasMany(Attachment::class, 'uploaded_by');
+    }
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function getDisplayImageAttribute() : string
+    {
+        return $this->image ? asset('storage/' . $this->image) : asset('back/images/users/default-avatar-icon-of-social-media-user-vector.jpg');
     }
 }
