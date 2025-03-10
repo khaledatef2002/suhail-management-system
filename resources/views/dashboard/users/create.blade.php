@@ -69,7 +69,7 @@
                     <div class="mb-3">
                         <label class="form-label" for="role">Role:</label>
                         <select class="form-control" id="role" name="role">
-                            <option>@lang('dashboard.select.choose-option')</option>
+                            <option value="">@lang('dashboard.select.choose-option')</option>
                             @foreach ($roles as $role)
                                 <option value="{{ $role->id }}">{{ $role->name }}</option>
                             @endforeach

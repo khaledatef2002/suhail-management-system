@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SendNewAccountInfoMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
@@ -109,6 +111,11 @@ class UserController extends Controller implements HasMiddleware
         $user = User::create($data);
         $user->assignRole($role);
 
+        if($request->with_email == true)
+        {
+            Mail::to($user->email)->send(new SendNewAccountInfoMail($user));
+        }
+
         return response()->json(['message' => __('dashboard.user_created')]);
     }
 
@@ -123,17 +130,52 @@ class UserController extends Controller implements HasMiddleware
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        $roles = Role::all();
+        return view('dashboard.users.edit', compact('user', 'roles'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $data = $request->validate([
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'password' => ['nullable', 'string', 'min:8', Rules\Password::defaults()],
+            'date_of_birth' => 'required|date',
+            'country_code' => 'required|string|size:2',
+            'phone_number' => ['required', 'numeric', 'unique:users,phone_number,' . $user->id, 'phone:' . $request->input('country_code')],
+            'role' => 'required|string|exists:roles,id'
+        ]);
+
+        if($request->hasFile('image'))
+        {
+            if($user->image)
+            {
+                unlink(public_path('storage/' . $user->image));
+            }
+
+            $randomName = now()->format('YmdHis') . '_' . Str::random(10) . '.webp';
+            $path = public_path('storage/users/' . $randomName);
+            $manager = new ImageManager(new Driver());
+            $manager->read($request->file('image'))
+            ->scale(height: 300)
+            ->encode(new AutoEncoder('webp', 80))
+            ->save($path);    
+
+            $data['image'] = 'users/' . $randomName;
+        }
+
+        $role = Role::findById($request->role);
+        $user->update(empty($data['password']) ? collect($data)->except('password')->toArray() : $data);
+        $user->syncRoles([$role]);
+
+        return response()->json(['message' => __('dashboard.user_updated')]);
     }
 
     /**

@@ -22,24 +22,57 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="mb-3 flex-fill">
-                        <label class="form-label" for="full_name">@lang('custom.full-name')</label>
-                        <input type="text" class="form-control" value="{{ $user->name }}" id="full_name" name="name" placeholder="@lang('custom.enter-first-name')">
+                    <div class="mb-4">
+                        <div class="position-relative d-inline-block auto-image-show">
+                            <label for="image" class="mb-0" data-bs-toggle="tooltip" data-bs-placement="right" title="@lang('dashboard.select-image')" role="button">
+                                <div class="position-absolute top-100 start-100 translate-middle">
+                                    <div class="avatar-xs">
+                                        <div class="avatar-title bg-light border rounded-circle text-muted cursor-pointer">
+                                            <i class="ri-image-fill"></i>
+                                        </div>
+                                    </div>
+                                    <input class="form-control d-none" name="image" id="image" type="file" accept="image/png, image/gif, image/jpeg">
+                                </div>
+                                <div class="avatar-lg">
+                                    <div class="avatar-title bg-light rounded">
+                                        <img src="{{ $user->display_image }}" class="rounded-3" style="min-height: 100%;min-width: 100%;" />
+                                    </div>
+                                </div>
+                            </label>
+                        </div> 
+                    </div>
+                    <div class="d-flex gap-3 flex-wrap mb-3">
+                        <div class="flex-fill">
+                            <label class="form-label" for="first_name">@lang('dashboard.first_name')</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name" placeholder="@lang('dashboard.first_name')" value="{{ $user->first_name }}">
+                        </div>
+                        <div class="flex-fill">
+                            <label class="form-label" for="last_name">@lang('dashboard.last_name')</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name" placeholder="@lang('dashboard.last_name')" value="{{ $user->last_name }}">
+                        </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="email">@lang('custom.email')</label>
-                        <input type="text" class="form-control" value="{{ $user->email }}" id="email" name="email" placeholder="@lang('custom.email')">
+                        <label class="form-label" for="email">@lang('dashboard.email')</label>
+                        <input type="text" class="form-control" id="email" name="email" placeholder="@lang('dashboard.email')" value="{{ $user->email }}">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="password">@lang('dashboard.users.new-password')</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="@lang('custom.password')">
+                        <label class="form-label" for="password">@lang('dashboard.new-password')</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="@lang('dashboard.password')">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="date_of_birth">@lang('dashboard.date_of_birth')</label>
+                        <input type="date" data-provider="flatpickr" data-date-format="Y-m-d" data-default-date="{{ $user->date_of_birth }}" class="form-control" id="date_of_birth" name="date_of_birth" placeholder="@lang('dashboard.date_of_birth')" value="{{ $user->date_of_birth }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="mb-1">@lang('dashboard.phone')</label>
+                        <input class="form-control country-selector" type="tel" name="phone" placeholder="@lang('dashboard.phone')" value="{{ $user->phone_number }}">
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="role">Role:</label>
                         <select class="form-control" id="role" name="role">
-                            <option>@lang('dashboard.select.choose-option')</option>
+                            <option value="">@lang('dashboard.select.choose-option')</option>
                             @foreach ($roles as $role)
-                                <option value="{{ $role->id }}" {{ $user->roles?->first()?->id == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
+                                <option value="{{ $role->id }}" {{ $user->roles()->first()->id == $role->id ? 'selected': '' }}>{{ $role->name }}</option>
                             @endforeach
                         </select>
                     </div>
