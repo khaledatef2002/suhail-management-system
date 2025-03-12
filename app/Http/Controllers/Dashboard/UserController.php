@@ -29,12 +29,13 @@ class UserController extends Controller implements HasMiddleware
             new Middleware('role:manager')
         ];
     }
+
     public function index(Request $request)
     {
         if($request->ajax())
         {
-            $quotes = User::get();
-            return DataTables::of($quotes)
+            $users = User::get();
+            return DataTables::of($users)
             ->addColumn('action', function($row){
                 return 
                 "<div class='d-flex align-items-center justify-content-center gap-2'>

@@ -16,13 +16,13 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
             r[k] = a[j];
     return r;
 };
-import { defaults as defaultOptions, HOOKS, } from "./types/options";
-import English from "./l10n/default";
-import { arrayify, debounce, int, pad } from "./utils";
-import { clearNode, createElement, createNumberInput, findParent, toggleClass, getEventTarget, } from "./utils/dom";
-import { compareDates, createDateParser, createDateFormatter, duration, isBetween, getDefaultHours, calculateSecondsSinceMidnight, parseSeconds, } from "./utils/dates";
-import { tokenRegex, monthToStr } from "./utils/formatting";
-import "./utils/polyfills";
+import { defaults as defaultOptions, HOOKS, } from "./types/options/index.js";
+import English from "./l10n/default/index.js";
+import { arrayify, debounce, int, pad } from "./utils/index.js";
+import { clearNode, createElement, createNumberInput, findParent, toggleClass, getEventTarget, } from "./utils/dom/index.js";
+import { compareDates, createDateParser, createDateFormatter, duration, isBetween, getDefaultHours, calculateSecondsSinceMidnight, parseSeconds, } from "./utils/dates/index.js";
+import { tokenRegex, monthToStr } from "./utils/formatting/index.js";
+import "./utils/polyfills/index.js";
 var DEBOUNCED_CHANGE_MS = 300;
 function FlatpickrInstance(element, instanceConfig) {
     var self = {

@@ -40,6 +40,11 @@
                         <i class="ri-user-fill"></i> <span>@lang('dashboard.users')</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ Route::currentRouteName() ==  'dashboard.internship-requests.index' ? 'active' : ''}}" href="{{ route('dashboard.internship-requests.index') }}" role="button">
+                        <i class="ri-user-fill"></i> <span>@lang('dashboard.internship-requests')</span>
+                    </a>
+                </li>
             </ul>
         </div>
         <!-- Sidebar -->

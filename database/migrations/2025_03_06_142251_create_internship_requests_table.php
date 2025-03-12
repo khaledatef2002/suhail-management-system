@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email');
-            $table->smallInteger('country_code');
             $table->string('phone_number');
+            $table->date('date_of_birth');
             $table->string('cv');
             $table->enum('status', [InternshipRequestStatus::ACCEPTED->value, InternshipRequestStatus::PENDING->value, InternshipRequestStatus::REJECTED->value])->default(InternshipRequestStatus::PENDING->value);
             $table->timestamps();

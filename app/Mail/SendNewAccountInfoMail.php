@@ -41,7 +41,7 @@ class SendNewAccountInfoMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.send-new-account-info',
+            view: 'mail.send-new-account-info',
             with: [
                 'account_type' => $this->user->roles()->first()->name,
                 'email' => $this->user->email,
