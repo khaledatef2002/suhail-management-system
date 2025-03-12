@@ -69,9 +69,6 @@ async function create_account(e, is_email = false) {
 
     submit_button.disabled = false
 }
-{
-
-}
 
 document.querySelector("body").addEventListener("click", function(e) {
     if(e.target.closest("button.remove_button"))

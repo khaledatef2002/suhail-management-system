@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Dashboard\HomeController;
 use App\Http\Controllers\Dashboard\InternShipRequestsController;
+use App\Http\Controllers\dashboard\SystemSettingsController;
 use App\Http\Controllers\Dashboard\UserController;
+use App\Models\SystemSetting;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -16,6 +18,12 @@ Route::name('dashboard.')->prefix(LaravelLocalization::setLocale() . '/dashboard
     Route::put('internship-request/{internship_request}/accept', [InternShipRequestsController::class, 'accept']);
     Route::put('internship-request/{internship_request}/accept_and_create', [InternShipRequestsController::class, 'accept_and_create']);
     Route::put('internship-request/{internship_request}/reject', [InternShipRequestsController::class, 'reject']);
+
+
+    Route::controller(SystemSettingsController::class)->group(function(){
+        Route::get('/system-settings', 'edit')->name('system-settings');
+        Route::put('/system-settings', 'update')->name('system-settings');
+    });
 
     // Route::resource('roles', RolesController::class)->except('show');
 

@@ -42,7 +42,12 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Route::currentRouteName() ==  'dashboard.internship-requests.index' ? 'active' : ''}}" href="{{ route('dashboard.internship-requests.index') }}" role="button">
-                        <i class="ri-user-fill"></i> <span>@lang('dashboard.internship-requests')</span>
+                        <i class="ri-survey-line"></i> <span>@lang('dashboard.internship-requests')</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ Route::currentRouteName() ==  'dashboard.system-settings' ? 'active' : ''}}" href="{{ route('dashboard.system-settings') }}" role="button">
+                        <i class="ri-settings-2-line"></i> <span>@lang('dashboard.system-settings')</span>
                     </a>
                 </li>
             </ul>
