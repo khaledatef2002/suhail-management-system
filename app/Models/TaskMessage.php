@@ -18,8 +18,8 @@ class TaskMessage extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function Attachments()
+    public function attachments()
     {
-        return $this->hasMany(Attachment::class)->where('entity_type', 'task_message');
+        return $this->hasMany(Attachment::class, 'entity_id')->where('entity_type', 'task_message');
     }
 }

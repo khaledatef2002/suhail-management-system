@@ -36,13 +36,18 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link {{ Route::currentRouteName() ==  'dashboard.users.index' ? 'active' : ''}}" href="{{ route('dashboard.users.index') }}" role="button">
-                        <i class="ri-user-fill"></i> <span>@lang('dashboard.users')</span>
+                    <a class="nav-link menu-link {{ Route::currentRouteName() ==  'dashboard.tasks.index' ? 'active' : ''}}" href="{{ route('dashboard.tasks.index') }}" role="button">
+                        <i class="ri-list-check-3"></i> <span>@lang('dashboard.tasks')</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Route::currentRouteName() ==  'dashboard.internship-requests.index' ? 'active' : ''}}" href="{{ route('dashboard.internship-requests.index') }}" role="button">
                         <i class="ri-survey-line"></i> <span>@lang('dashboard.internship-requests')</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ Route::currentRouteName() ==  'dashboard.users.index' ? 'active' : ''}}" href="{{ route('dashboard.users.index') }}" role="button">
+                        <i class="ri-user-fill"></i> <span>@lang('dashboard.users')</span>
                     </a>
                 </li>
                 <li class="nav-item">

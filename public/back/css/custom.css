@@ -46,3 +46,26 @@ div.iti:has(input.form-control)
   outline: none;
   padding: 5px 10px;
 }
+
+.select2-container .select2-selection--single {
+    height: 38px;
+    display: flex;
+    align-items: center;
+}
+.select2-container--default .select2-selection--single
+{
+    border: 1px solid #ced4da;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow
+{
+    top: 6px;
+}
+
+.btn-check+.btn i
+{   
+    display: none;
+}
+.btn-check:checked+.btn i
+{
+    display: inline-block;
+}

@@ -1,8 +1,10 @@
 <?php
 
+use App\Helpers\select2;
 use App\Http\Controllers\Dashboard\HomeController;
 use App\Http\Controllers\Dashboard\InternShipRequestsController;
 use App\Http\Controllers\dashboard\SystemSettingsController;
+use App\Http\Controllers\Dashboard\TasksController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Models\SystemSetting;
 use Illuminate\Support\Facades\Route;
@@ -25,7 +27,9 @@ Route::name('dashboard.')->prefix(LaravelLocalization::setLocale() . '/dashboard
         Route::put('/system-settings', 'update')->name('system-settings');
     });
 
-    // Route::resource('roles', RolesController::class)->except('show');
+    Route::resource('tasks', TasksController::class);
 
-    // Route::resource('tenants', TenantsController::class)->except('show');
+    Route::prefix('/select2')->controller(select2::class)->name('select2.')->group(function(){
+        Route::get('/users', 'users')->name('users');
+    });
 });

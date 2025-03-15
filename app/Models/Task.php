@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
-    protected $fillable = ['title', 'description', 'status', 'due_date', 'assignee_id', 'creator_id'];
+    protected $fillable = ['title', 'description', 'due_date', 'assignee_id', 'creator_id'];
 
     public function creator()
     {
@@ -25,6 +25,6 @@ class Task extends Model
 
     public function attachments()
     {
-        return $this->hasMany(Attachment::class)->where('entity_type', 'task');
+        return $this->hasMany(Attachment::class, 'entity_id')->where('entity_type', 'task');
     }
 }

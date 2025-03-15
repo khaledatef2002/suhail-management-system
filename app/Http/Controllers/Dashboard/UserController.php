@@ -34,7 +34,7 @@ class UserController extends Controller implements HasMiddleware
     {
         if($request->ajax())
         {
-            $users = User::get();
+            $users = User::query();
             return DataTables::of($users)
             ->addColumn('action', function($row){
                 return 

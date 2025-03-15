@@ -52,7 +52,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="email">@lang('dashboard.email')</label>
-                        <input type="text" class="form-control" id="email" name="email" placeholder="@lang('dashboard.email')">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="@lang('dashboard.email')">
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="password">@lang('dashboard.password')</label>

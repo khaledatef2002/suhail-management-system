@@ -20,7 +20,7 @@ class InternShipRequestsController extends Controller implements HasMiddleware
     public static function middleware()
     {
         return [
-            new Middleware('role:manager')
+            new Middleware('role:manager|admin')
         ];
     }
 
@@ -31,7 +31,7 @@ class InternShipRequestsController extends Controller implements HasMiddleware
     {
         if($request->ajax())
         {
-            $intern_requests = InternshipRequest::get();
+            $intern_requests = InternshipRequest::query();
             return DataTables::of($intern_requests)
             ->addColumn('action', function(InternshipRequest $intern_request){
                 $is_already_user = User::where('email', $intern_request->email)->count() > 0;

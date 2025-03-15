@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamp('due_date');
             $table->enum('status', [TaskStatus::NEW->value, TaskStatus::REVIEW->value, TaskStatus::WORKING->value, TaskStatus::FEEDBACK->value, TaskStatus::DONE->value])->default(TaskStatus::NEW->value);
             $table->unsignedBigInteger('assignee_id')->index();
