@@ -1,34 +1,47 @@
 @extends('dashboard.layouts.app')
 
-@section('title', __('dashboard.task.create'))
+@section('title', __('dashboard.task.edit'))
 
 @section('content')
 
-<div class="card">
-    <div class="card-body">
-        <div class="row g-2">
-            <div class="col-sm-auto ms-auto">
-                <a href="{{ route('dashboard.tasks.index') }}"><button class="btn btn-light"><i class="ri-arrow-go-forward-fill me-1 align-bottom"></i> @lang('dashboard.return')</button></a>
-            </div>
-            <!--end col-->
-        </div>
-        <!--end row-->
-    </div>
-</div>
-<form id="create-task-form">
+<form id="edit-task-form" data-id="{{ $task->id }}">
     @csrf
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between g-2">
+                <div>
+                    <input type="radio" name="status" value="{{ App\Enum\TaskStatus::NEW->value }}" class="btn-check status_filter" id="new" {{ $task->status == App\Enum\TaskStatus::NEW->value ? 'checked' : '' }}>
+                    <label class="btn btn-outline-dark" for="new">@lang('dashboard.new') <i class="ri-check-line"></i></label>
+                    
+                    <input type="radio" name="status" value="{{ App\Enum\TaskStatus::REVIEW->value }}" class="btn-check status_filter" id="review" {{ $task->status == App\Enum\TaskStatus::REVIEW->value ? 'checked' : '' }}>
+                    <label class="btn btn-outline-warning" for="review">@lang('dashboard.review') <i class="ri-check-line"></i></label>
+    
+                    <input type="radio" name="status" value="{{ App\Enum\TaskStatus::WORKING->value }}" class="btn-check status_filter" id="working" {{ $task->status == App\Enum\TaskStatus::WORKING->value ? 'checked' : '' }}>
+                    <label class="btn btn-outline-primary" for="working">@lang('dashboard.working') <i class="ri-check-line"></i></label>
+    
+                    <input type="radio" name="status" value="{{ App\Enum\TaskStatus::FEEDBACK->value }}" class="btn-check status_filter" id="feedback" {{ $task->status == App\Enum\TaskStatus::FEEDBACK->value ? 'checked' : '' }}>
+                    <label class="btn btn-outline-warning" for="feedback">@lang('dashboard.feedback') <i class="ri-check-line"></i></label>
+    
+                    <input type="radio" name="status" value="{{ App\Enum\TaskStatus::DONE->value }}" class="btn-check status_filter" id="done" {{ $task->status == App\Enum\TaskStatus::DONE->value ? 'checked' : '' }}>
+                    <label class="btn btn-outline-success" for="done">@lang('dashboard.done') <i class="ri-check-line"></i></label>
+                </div>
+                <a href="{{ route('dashboard.tasks.index') }}" class="btn btn-light d-flex align-items-center"><i class="ri-arrow-go-forward-fill me-1 align-bottom"></i> @lang('dashboard.return')</a>
+            </div>
+            <!--end row-->
+        </div>
+    </div>
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
                     <div class="mb-3">
                         <label class="form-label" for="title">@lang('dashboard.title')</label>
-                        <input type="text" class="form-control" id="title" name="title" placeholder="@lang('dashboard.title')">
+                        <input value="{{ $task->title }}" type="text" class="form-control" id="title" name="title" placeholder="@lang('dashboard.title')">
                     </div>
                     <div class="d-flex gap-3 flex-wrap mb-3">
                         <div class="flex-fill">
                             <label class="form-label" for="due_date">@lang('dashboard.due_date')</label>
-                            <input type="date" data-provider="flatpickr" data-date-format="Y-m-d" class="form-control" id="due_date" name="due_date" placeholder="@lang('dashboard.date_of_birth')">
+                            <input value="{{ $task->due_date }}" type="date" data-provider="flatpickr" data-date-format="Y-m-d" data-deafult-date="{{ $task->due_date }}" class="form-control" id="due_date" name="due_date" placeholder="@lang('dashboard.date_of_birth')">
                         </div>
                         <div class="flex-fill">
                             <label class="form-label" for="assignee_id">@lang('dashboard.assignee')</label>
@@ -39,7 +52,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="description">@lang('dashboard.description')</label>
-                        <textarea class="form-control" id="description" name="description" placeholder="@lang('dashboard.description')"></textarea>
+                        <textarea class="form-control" id="description" name="description" placeholder="@lang('dashboard.description')">{{ $task->description }}</textarea>
                     </div>
                 </div>
             </div>
@@ -90,7 +103,7 @@
     </div>
     <div class="row">
         <div class="text-end mb-3">
-            <button type="submit" class="btn btn-success w-sm">@lang('dashboard.create')</button>
+            <button type="submit" class="btn btn-success w-sm">@lang('dashboard.save')</button>
         </div>
     </div>
 </form>
@@ -150,13 +163,20 @@
                 );
             },
         });
+        
+        let option = new Option("{{ $task->assignee->full_name }}", {{ $task->assignee->id }}, true, true);
+        $('select[name="assignee_id"]').append(option).trigger('change');
+        
+
+        let existingFiles = @json($task->attachments);
+
         let dropzonePreviewNode = document.querySelector("#dropzone-preview-list");
         dropzonePreviewNode.id = "";
         let previewTemplate = dropzonePreviewNode.parentNode.innerHTML;
         dropzonePreviewNode.parentNode.removeChild(dropzonePreviewNode);
         let dropzone = new Dropzone(".dropzone", {
             url: "#",
-            autoProcessQueue: false,
+            // autoProcessQueue: false,
             uploadMultiple: true,
             parallelUploads: 5,
             maxFilesize: 1024 * 2,
@@ -169,7 +189,7 @@
 
                 // Show "No Attachments" when Dropzone is empty
                 function updateAttachmentMessage() {
-                    noAttachmentsMessage.style.display = dropzoneInstance.files.length === 0 ? "block" : "none";
+                    noAttachmentsMessage.style.display = dropzoneInstance.files.length + existingFiles.length === 0 ? "block" : "none";
                 }
 
                 // Update message when a file is added
@@ -178,8 +198,24 @@
                 });
 
                 // Update message when a file is removed
-                this.on("removedfile", function() {
+                this.on("removedfile", function(file) {
+                    if(file.id)
+                    {
+                        existingFiles = existingFiles.filter(existingFile => existingFile.id != file.id)
+                    }
                     updateAttachmentMessage();
+                });
+
+
+                existingFiles.forEach(image => {
+                    let mockFile = { name: image.file_name, size: image.file_size, dataURL: image.file_path, id: image.id };
+
+                    this.emit("addedfile", mockFile);     // Add file to Dropzone
+                    this.emit("thumbnail", mockFile, "{{ asset('storage') }}/" + image.file_path); // Show thumbnail
+                    this.emit("complete", mockFile);      // Mark as complete
+                    mockFile.previewElement.classList.add('dz-complete');
+
+                    mockFile.existing = true;
                 });
 
                 // Initial state

@@ -79,6 +79,11 @@ class User extends Authenticatable
         return $this->hasMany(Notification::class);
     }
 
+    public function unseen_notifications()
+    {
+        return $this->hasMany(Notification::class)->where('is_read', false);
+    }
+
     public function getDisplayImageAttribute() : string
     {
         return $this->image ? asset('storage/' . $this->image) : asset('back/images/users/default-avatar-icon-of-social-media-user-vector.jpg');

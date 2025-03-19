@@ -9,7 +9,7 @@
             <div class="image-container mx-auto d-flex justify-content-center align-items-center overflow-hidden" style="width:100px;height:100px;border-radius:50%;">
                 <img src="{{ asset('storage/'. $settings->logo) }}">
             </div>
-            <h1 class="text-center mb-5">Internship Apply</h1>
+            <h1 class="text-center mb-5">@lang('front.internship-apply')</h1>
 
             @if ($settings->is_internship_form_avilable)
                 <form id="apply-internship">
@@ -26,7 +26,7 @@
                     </div>
                     <div class="flex-fill mb-3">
                         <label for="email" class="form-label mb-0">@lang('front.email')<strong class="text-danger">*</strong></label>
-                        <input type="email" class="form-control" id="email" name="email" placholder="@lang('front.email')">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="@lang('front.email')">
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="date_of_birth">@lang('dashboard.date_of_birth')<strong class="text-danger">*</strong></label>

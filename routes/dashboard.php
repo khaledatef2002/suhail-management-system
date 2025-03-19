@@ -3,7 +3,9 @@
 use App\Helpers\select2;
 use App\Http\Controllers\Dashboard\HomeController;
 use App\Http\Controllers\Dashboard\InternShipRequestsController;
+use App\Http\Controllers\Dashboard\NotificationsController;
 use App\Http\Controllers\dashboard\SystemSettingsController;
+use App\Http\Controllers\Dashboard\TaskMessagesController;
 use App\Http\Controllers\Dashboard\TasksController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Models\SystemSetting;
@@ -32,4 +34,10 @@ Route::name('dashboard.')->prefix(LaravelLocalization::setLocale() . '/dashboard
     Route::prefix('/select2')->controller(select2::class)->name('select2.')->group(function(){
         Route::get('/users', 'users')->name('users');
     });
+
+    Route::put('/tasks/{task}/update-status', [TasksController::class, 'set_status'])->name('tasks.update-status');
+
+    Route::resource('task-messages', TaskMessagesController::class);
+    
+    Route::get('/notification/{notification}', [NotificationsController::class, 'display'])->name('notification.display');
 });
