@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\SystemSetting;
+use Exception;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -13,9 +14,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton('settings', function(){
-            return SystemSetting::all()->first();
-        });
+        try
+        {
+            $this->app->singleton('settings', function(){
+                return SystemSetting::all()->first();
+            });
+        }
+        catch(Exception $e)
+        {
+
+        }
     }
 
     /**
@@ -23,7 +31,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $settings = SystemSetting::all()->first();
-        View::share('settings', $settings);
+        try
+        {
+            $settings = SystemSetting::all()->first();
+            View::share('settings', $settings);
+        }
+        catch(Exception $e)
+        {
+            
+        }
     }
 }
