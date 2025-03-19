@@ -54,6 +54,7 @@ class setup extends Command
             'last_name' => 'Lorem',
             'email' => 'admin@' . config('app.url'),
             'password' => bcrypt($randomPassword),
+            'date_of_birth' => date("Y-m-d"),
         ]);
 
         $manager->assignRole($manager_role);

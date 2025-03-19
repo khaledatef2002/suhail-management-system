@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('logo')->nullable();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->boolean('is_internship_form_avilable');
+            $table->boolean('is_internship_form_avilable')->default(false);
         });
     }
 
