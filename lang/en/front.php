@@ -11,5 +11,5 @@ return [
     'only' => 'Only',
     'apply' => 'Apply',
     'internship_request_sent' => 'We have received your internship request',
-    
+    'ok' => 'Ok',
 ];

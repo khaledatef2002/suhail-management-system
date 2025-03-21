@@ -47,15 +47,17 @@ const enable_internship_form = function()
             form.querySelectorAll("input:not([name='_token']").forEach(input => input.value = "")
             Swal.fire({
                 text: response.data.message,
-                icon: "success"
-            });
+                icon: "success",
+                confirmButtonText: __.ok,
+            })
         }
         else
         {
             Swal.fire({
                 text: response.message,
-                icon: "error"
-            });
+                icon: "error",
+                confirmButtonText: __.ok,
+            })
         }
     
         submit_button.disabled = false

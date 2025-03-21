@@ -47,6 +47,22 @@
 
 <script src="{{ asset('back/libs/intl-tel-input/js/intlTelInput.min.js') }}"></script>
 
+<script>
+    const __table_lang = {
+                search: "@lang('datatable.search')",
+                lengthMenu: "@lang('datatable.show') _MENU_ @lang('datatable.entries')",
+                info: "@lang('datatable.showing') _START_ @lang('datatable.to') _END_ @lang('datatable.of') _TOTAL_ @lang('datatable.records')",
+                paginate: {
+                    first: "@lang('datatable.first')",
+                    last: "@lang('datatable.last')",
+                    next: "@lang('datatable.next')",
+                    previous: "@lang('datatable.previous')"
+                },
+                emptyTable: "@lang('datatable.empty')",
+                zeroRecords: "@lang('datatable.zero')",
+            }
+</script>
+
 @yield('additional-js-libs')
 
 <!-- App js -->

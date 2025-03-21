@@ -54,7 +54,8 @@
                             { data: 'cv', name: 'cv' },
                             { data: 'status', name: 'status' },
                             { data: 'action', name: 'action'}
-                        ]
+                        ],
+                language: __table_lang
             });
         });
     </script>

@@ -37,7 +37,7 @@
                 <tr class="table-dark">
                     <th>@lang('dashboard.id')</th>
                     <th>@lang('dashboard.task')</th>
-                    <th>@lang('dashboard.asignee')</th>
+                    <th>@lang('dashboard.assignee')</th>
                     <th>@lang('dashboard.creator')</th>
                     <th>@lang('dashboard.due_date')</th>
                     <th>@lang('dashboard.status')</th>
@@ -71,12 +71,13 @@
                 columns: [
                             { data: 'id', name: 'id' },
                             { data: 'task', name: 'task' },
-                            { data: 'asignee', name: 'asignee' },
+                            { data: 'assignee', name: 'assignee' },
                             { data: 'creator', name: 'creator' },
                             { data: 'due_date', name: 'due_date' },
                             { data: 'status', name: 'status' },
                             { data: 'action', name: 'action'}
                         ],
+                language: __table_lang
             });
         });
     </script>

@@ -53,7 +53,8 @@
                             { data: 'phone_number', name: 'phone_number' },
                             { data: 'role', name: 'role' },
                             { data: 'action', name: 'action'}
-                        ]
+                        ],
+                language: __table_lang
             });
         });
     </script>

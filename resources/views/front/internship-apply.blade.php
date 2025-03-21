@@ -66,3 +66,12 @@
     </div>
 
 @endsection
+@section('additional-js-libs')
+
+<script>
+    const __ = {
+        ok: '@lang("front.ok")'
+    }
+</script>
+
+@endsection

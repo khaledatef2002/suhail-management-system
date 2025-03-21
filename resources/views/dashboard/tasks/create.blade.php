@@ -28,7 +28,7 @@
                     <div class="d-flex gap-3 flex-wrap mb-3">
                         <div class="flex-fill">
                             <label class="form-label" for="due_date">@lang('dashboard.due_date')</label>
-                            <input type="date" data-provider="flatpickr" data-date-format="Y-m-d" class="form-control" id="due_date" name="due_date" placeholder="@lang('dashboard.date_of_birth')">
+                            <input type="date" data-provider="flatpickr" data-date-format="Y-m-d" class="form-control" id="due_date" name="due_date" placeholder="@lang('dashboard.due_date')">
                         </div>
                         <div class="flex-fill">
                             <label class="form-label" for="assignee_id">@lang('dashboard.assignee')</label>

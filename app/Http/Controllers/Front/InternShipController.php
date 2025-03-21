@@ -47,7 +47,7 @@ class InternShipController extends Controller
 
         Mail::to($internship->email)->send(new InternshipRequestSentMail($internship));
 
-        return response()->json(['message' => __('dashboard.internship_request_sent')]);
+        return response()->json(['message' => __('front.internship_request_sent')]);
     }
 
     /**
