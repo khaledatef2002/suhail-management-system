@@ -4,11 +4,10 @@ use App\Helpers\select2;
 use App\Http\Controllers\Dashboard\HomeController;
 use App\Http\Controllers\Dashboard\InternShipRequestsController;
 use App\Http\Controllers\Dashboard\NotificationsController;
-use App\Http\Controllers\dashboard\SystemSettingsController;
+use App\Http\Controllers\Dashboard\SystemSettingsController;
 use App\Http\Controllers\Dashboard\TaskMessagesController;
 use App\Http\Controllers\Dashboard\TasksController;
 use App\Http\Controllers\Dashboard\UserController;
-use App\Models\SystemSetting;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
