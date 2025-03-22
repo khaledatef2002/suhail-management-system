@@ -12,7 +12,7 @@
     {{-- RTL FILES --}}
     @if (LaravelLocalization::getCurrentLocaleDirection() == 'rtl')
         <!-- Bootstrap Css -->
-        <link href="{{ asset('front') }}/libs/bootstrap/css/bootstrap-rtl.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('front') }}/libs/bootstrap/css/bootstrap.rtl.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
     @else
         <!-- Bootstrap Css -->
         <link href="{{ asset('front') }}/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
