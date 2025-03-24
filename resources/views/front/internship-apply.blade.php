@@ -6,7 +6,7 @@
    
     <div class="content card border-0 rounded-3 col-lg-6 m-auto">
         <div class="card-body shadow-sm">
-            <div class="image-container mx-auto d-flex justify-content-center align-items-center overflow-hidden" style="width:100px;height:100px;border-radius:50%;">
+            <div class="image-container mx-auto d-flex justify-content-center align-items-center overflow-hidden" style="width:auto;height:100px;">
                 <img src="{{ asset('storage/'. $settings->logo) }}">
             </div>
             <h1 class="text-center mb-5">@lang('front.internship-apply')</h1>

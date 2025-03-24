@@ -36,7 +36,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="description">@lang('dashboard.description')</label>
-                        <textarea class="form-control" id="description" name="description" placeholder="@lang('dashboard.description')"></textarea>
+                        <textarea class="form-control" id="description" name="description" placeholder="@lang('dashboard.description')">{{ $settings->description }}</textarea>
                     </div>
                     <div class="mb-3">
                         <label class="form-label w-100" for="is_internship_form_avilable">@lang('dashboard.internship-form')</label>
