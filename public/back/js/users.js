@@ -28,14 +28,14 @@ if(document.querySelector("input.country-selector"))
 }
 
 document.querySelector("form#create-user-form button#create")?.addEventListener("click", async function(e) {
-    create_account(e)
+    create_account(e, false, this)
 })
 
 document.querySelector("form#create-user-form button#create-with-email")?.addEventListener("click", async function(e) {
-    create_account(e, true)
+    create_account(e, true, this)
 })
 
-async function create_account(e, is_email = false) {
+async function create_account(e, is_email = false, submit_button) {
     e.preventDefault()
 
     const form = document.querySelector("form#create-user-form")
@@ -45,7 +45,6 @@ async function create_account(e, is_email = false) {
     formData.set("country_code", iti.getSelectedCountryData().iso2.toUpperCase())
     formData.append("with_email", is_email)
 
-    const submit_button = this
     submit_button.disabled = true
 
     const response = await request("/dashboard/users", "POST", formData)
