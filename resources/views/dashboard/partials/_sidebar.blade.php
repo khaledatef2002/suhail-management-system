@@ -40,11 +40,14 @@
                         <i class="ri-list-check-3"></i> <span>@lang('dashboard.tasks')</span>
                     </a>
                 </li>
+                @if(auth()->user()->hasAnyRole(['manager', 'admin']))
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Route::currentRouteName() ==  'dashboard.internship-requests.index' ? 'active' : ''}}" href="{{ route('dashboard.internship-requests.index') }}" role="button">
                         <i class="ri-survey-line"></i> <span>@lang('dashboard.internship-requests')</span>
                     </a>
                 </li>
+                @endif
+                @if(auth()->user()->hasRole('manager'))
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Route::currentRouteName() ==  'dashboard.users.index' ? 'active' : ''}}" href="{{ route('dashboard.users.index') }}" role="button">
                         <i class="ri-user-fill"></i> <span>@lang('dashboard.users')</span>
@@ -55,6 +58,7 @@
                         <i class="ri-settings-2-line"></i> <span>@lang('dashboard.system-settings')</span>
                     </a>
                 </li>
+                @endif
             </ul>
         </div>
         <!-- Sidebar -->
