@@ -6,7 +6,7 @@ document.querySelector("form#create-task-form")?.addEventListener("submit", asyn
     const form = this
     const formData = new FormData(form)
 
-    dropzone.files?.forEach((file, index) => {
+    Dropzone.forElement(".dropzone").files?.forEach((file, index) => {
         formData.append(`files[${index}]`, file);
     });
 
@@ -82,7 +82,7 @@ document.querySelector("form#edit-task-form")?.addEventListener("submit", async 
     const form = this
     const formData = new FormData(form)
 
-    dropzone.files?.forEach((file, index) => {
+    Dropzone.forElement(".dropzone").files?.forEach((file, index) => {
         formData.append(`files[${index}]`, file);
     });
 
@@ -113,15 +113,15 @@ document.querySelector("form#edit-task-form")?.addEventListener("submit", async 
                 id: file.id 
             };
 
-            dropzone.emit("addedfile", mockFile);
-            dropzone.emit("thumbnail", mockFile, file.display_image);
-            dropzone.emit("complete", mockFile);
+            Dropzone.forElement(".dropzone").emit("addedfile", mockFile);
+            Dropzone.forElement(".dropzone").emit("thumbnail", mockFile, file.display_image);
+            Dropzone.forElement(".dropzone").emit("complete", mockFile);
             mockFile.previewElement.classList.add('dz-complete');
         })
 
         existingFiles = response.data.attachments_data
 
-        document.getElementById("noAttachments").style.display = dropzone.files.length + existingFiles.length === 0 ? "block" : "none"
+        document.getElementById("noAttachments").style.display = Dropzone.forElement(".dropzone").files.length + existingFiles.length === 0 ? "block" : "none"
 
         Swal.fire({
             text: response.data.message,
