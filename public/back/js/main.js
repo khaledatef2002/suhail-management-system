@@ -13,7 +13,7 @@ const enable_login = function()
         const response = await request("/login", "POST", formData)
 
         if(response.success) {
-            location.reload()
+            location.href = response.data.redirect
         }
         else
         {
