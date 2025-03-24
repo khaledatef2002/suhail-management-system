@@ -98,7 +98,7 @@
 @endsection
 
 @section('custom-js')
-    <script src="{{ asset('back/js/tasks.js') }}" type="module"></script>
+    <script src="{{ asset('back/js/tasks.js') }}" type="module" defer></script>
     <script>
         $('select[name="assignee_id"]').select2({
             placeholder: "@lang('dashboard.select.choose-option')",
