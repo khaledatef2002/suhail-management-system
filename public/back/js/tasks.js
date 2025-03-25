@@ -247,6 +247,45 @@ document.querySelector("body").addEventListener('click', async function(e){
                 text: response.data.message,
                 icon: "success"
             });
+            document.getElementById("messages").insertAdjacentHTML('afterbegin', `
+                <div class="d-flex gap-2 align-items-center">
+                    <img src="${response.data.user_image}" class="rounded-circle" style="width: 65px; height: 65px;">
+                    <div class="d-flex justify-content-between w-100">
+                        <div class="d-flex flex-column">
+                            <div class="d-flex gap-2">
+                                <span class="fw-bold">${ response.data.user_fullname }</span> -
+                                <span>${ response.data.date }</span>
+                            </div>
+                            <span>${ response.data.content }</span>
+                            ${ response.data.attachments.length > 0 ?
+                                `<div class="message_attachments mt-2 d-flex gap-5 flex-wrap">
+                                    ${ response.data.attachments.forEach (function(attachment){
+                                        `<a href="${ attachment.redirect_url }" target="_blank">
+                                            <div class="d-flex align-items-center">
+                                                <img src="${ attachment.display_image }" class="rounded-circle" style="width: 30px; height: 30px;">
+                                                <div class="d-flex flex-column">
+                                                    <span>${ attachment.file_name }</span>
+                                                    <span>${ attachment.formatted_size }</span>
+                                                </div>
+                                            </div>
+                                        </a>`
+                                        })
+                                    }
+                                </div>`
+                            : ``}
+                        </div>
+                        ${ response.data.ability_to_delete ?
+                            `<div>
+                                <i class="ri-delete-bin-line text-danger fs-3 delete_message" data-id="{{ $message->id }}" role="button"></i>
+                            </div>`
+                            : ``
+                        }
+                    </div>
+                </div>
+                ${
+                    document.querySelectorAll("#messages > div").length > 0 ? `<hr>` : ``
+                }
+            `)
         }
         else
         {

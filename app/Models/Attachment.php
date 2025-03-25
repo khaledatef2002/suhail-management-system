@@ -8,7 +8,7 @@ class Attachment extends Model
 {
     protected $fillable = ['entity_type', 'entity_id', 'file_name', 'file_path', 'file_size', 'file_type', 'uploaded_by'];
 
-    protected $appends = ['display_image'];
+    protected $appends = ['display_image', 'formatted_size'];
 
     public function task()
     {
@@ -23,6 +23,11 @@ class Attachment extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'uploaded_by');
+    }
+
+    public function getRedirectUrlAttribute() : string
+    {
+        return asset('storage/' . $this->file_path);
     }
 
     public function getDisplayImageAttribute() : string

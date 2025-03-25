@@ -2,6 +2,12 @@
 
 return [
     'home' => 'الرئيسية',
+    'welcome-to-dashboard' => 'أهلا بك يا :userName في نظام :systemName\'s',
+    'welcome' => 'أهلا بعودتك',
+    'sign-in-to-continue' => 'سجل دخولك للمتابعة',
+    'login.keep' => 'ابقني قيد تسجيل الدخول',
+    'login' => 'تسجيل الدخول',
+    'forget-password' => 'نسيت كلمة المرور',
     'created_for_you' => 'المهام المخصصة لك',
     'assigned_new_tasks' => 'تم إسناد مهام جديدة إليك',
     'assigned_working_tasks' => 'مهام قيد التنفيذ مسندة إليك',

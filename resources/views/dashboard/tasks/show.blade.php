@@ -111,7 +111,7 @@
                                             <div class="d-flex flex-column">
                                                 <div class="d-flex gap-2">
                                                     <span class="fw-bold">{{ $message->user->full_name }}</span> -
-                                                    <span>{{ $message->user->created_at->format('Y-m-d H:i:s a') }}</span>
+                                                    <span>{{ $message->created_at->format('Y-m-d H:ia') }}</span>
                                                 </div>
                                                 <span>{{ $message->message }}</span>
                                                 @if ($message->attachments()->count() > 0)
@@ -172,59 +172,5 @@
     <script src="{{ asset('back/js/tasks.js') }}" type="module"></script>
     <script>
         const task_id = {{ $task->id }}
-        let existingFiles = @json($task->attachments);
-
-        let dropzonePreviewNode = document.querySelector("#dropzone-preview-list");
-        dropzonePreviewNode.id = "";
-        let previewTemplate = dropzonePreviewNode.parentNode.innerHTML;
-        dropzonePreviewNode.parentNode.removeChild(dropzonePreviewNode);
-        let dropzone = new Dropzone(".dropzone", {
-            url: "#",
-            // autoProcessQueue: false,
-            uploadMultiple: true,
-            parallelUploads: 5,
-            maxFilesize: 1024 * 2,
-            acceptedFiles: ".jpg,.jpeg,.png,.gif,.zip,.rar,.pdf,.doc,.docx,.xls,.xlsx",
-            previewTemplate: previewTemplate,
-            previewsContainer: "#dropzone-preview",
-            init: function() {
-                let dropzoneInstance = this;
-                let noAttachmentsMessage = document.getElementById("noAttachments");
-
-                // Show "No Attachments" when Dropzone is empty
-                function updateAttachmentMessage() {
-                    noAttachmentsMessage.style.display = dropzoneInstance.files.length + existingFiles.length === 0 ? "block" : "none";
-                }
-
-                // Update message when a file is added
-                this.on("addedfile", function() {
-                    updateAttachmentMessage();
-                });
-
-                // Update message when a file is removed
-                this.on("removedfile", function(file) {
-                    if(file.id)
-                    {
-                        existingFiles = existingFiles.filter(existingFile => existingFile.id != file.id)
-                    }
-                    updateAttachmentMessage();
-                });
-
-
-                existingFiles.forEach(image => {
-                    let mockFile = { name: image.file_name, size: image.file_size, dataURL: image.file_path, id: image.id };
-
-                    this.emit("addedfile", mockFile);     // Add file to Dropzone
-                    this.emit("thumbnail", mockFile, "{{ asset('storage') }}/" + image.file_path); // Show thumbnail
-                    this.emit("complete", mockFile);      // Mark as complete
-                    mockFile.previewElement.classList.add('dz-complete');
-
-                    mockFile.existing = true;
-                });
-
-                // Initial state
-                updateAttachmentMessage();
-            }
-        });
     </script>
 @endsection

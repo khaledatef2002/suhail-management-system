@@ -6,7 +6,7 @@
 
     <div class="card">
         <div class="card-body">
-            <h2 class="mb-0 text-dark">Welcome {{ auth()->user()->first_name }} to {{ $settings->name }}'s System</h2>
+            <h2 class="mb-0 text-dark">@lang('dashboard.welcome-to-dashboard', ['userName' => auth()->user()->first_name, 'systemName' => $settings->name])</h2>
         </div>
     </div>
 

@@ -81,7 +81,16 @@ class TaskMessagesController extends Controller
             }
         });
 
-        return response()->json(['message' => __('dashboard.task_message_added')]);
+        return response()->json([
+            'message' => __('dashboard.task_message_added'),
+            'id' => $message->id,
+            'user_image' => $message->user->display_image,
+            'user_fullname' => $message->user->full_name,
+            'date' => $message->created_at->format('Y-m-d H:ia'),
+            'content' => $message->message,
+            'attachments' => $message->attachments,
+            'ability_to_delete' => Auth::user()->hasRole('manager') || Auth::user()->id == $message->task->creator_id
+        ]);
     }
 
     /**
@@ -122,6 +131,10 @@ class TaskMessagesController extends Controller
                 $attachment->delete();
             }
             $task_message->delete();
+
+            return response()->json([
+                'message' => __('dashboard.task_message_deleted'),
+            ]);
         }
 
         return response(401);

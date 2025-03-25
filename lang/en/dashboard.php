@@ -2,6 +2,12 @@
 
 return [
     'home' => 'Home',
+    'welcome-to-dashboard' => 'Welcome :userName To :systemName\'s system',
+    'welcome' => 'Welcome',
+    'sign-in-to-continue' => 'Sign in to continue',
+    'login.keep' => 'Keep Login',
+    'login' => 'login',
+    'forget-password' => 'Forget password',
     'created_for_you' => 'Created for you',
     'assigned_new_tasks' => 'Assigned new tasks',
     'assigned_working_tasks' => 'Assigned working tasks',
