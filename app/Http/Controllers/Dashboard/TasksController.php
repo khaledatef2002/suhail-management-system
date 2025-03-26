@@ -25,7 +25,7 @@ class TasksController extends Controller implements HasMiddleware
     public static function middleware()
     {
         return [
-            new Middleware('role:manager|admin', except: ['show'])
+            new Middleware('role:manager|admin', except: ['show', 'index', 'set_status'])
         ];
     }
     /**
@@ -345,7 +345,7 @@ class TasksController extends Controller implements HasMiddleware
             'status' => ['required', 'in:' . TaskStatus::NEW->value . "," . TaskStatus::WORKING->value . "," . TaskStatus::REVIEW->value . "," . TaskStatus::FEEDBACK->value . "," . TaskStatus::DONE->value]
         ]);
 
-        if(in_array($data['status'], [TaskStatus::FEEDBACK->value, TaskStatus::DONE->value]) && !(Auth::user()->hasRole('manager') || Auth::user()->id == $task->creator->id))
+        if(in_array($data['status'], [TaskStatus::FEEDBACK->value, TaskStatus::DONE->value]) && (!(Auth::user()->hasRole('manager') || Auth::user()->id == $task->creator->id)))
         {
             return response(401);
         }
