@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Enum\NotificationEntityType;
+use App\Enum\TaskStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Attachment;
 use App\Models\Notification;
@@ -43,6 +44,11 @@ class TaskMessagesController extends Controller
                 if (!$task || ($user->id !== $task->creator_id && $user->id !== $task->assignee_id && !$user->hasRole('manager'))) {
                     $fail(__('You are not authorized to add a message to this task.'));
                 }
+
+                if($task->status == TaskStatus::DONE->value)
+                {
+                    $fail(__('You are not authorized to add a message to this task.'));
+                }
             }],
             'files.*' => ['nullable', 'file', 'mimes:jpg,jpeg,png,gif,zip,rar,pdf,doc,docx,xls,xlsx', 'max:1048576']
         ]);
@@ -74,7 +80,7 @@ class TaskMessagesController extends Controller
             {
                 Notification::create([
                     'user_id' => $user,
-                    'title' => __('dashboard.new-message-added_to_the_task') . " (" . $message->task->title . ") " . __('dashboard.by') . " " . Auth::user()->full_name,
+                    'title' => "__('dashboard.new-message-added_to_the_task') . ' ('" . $message->task->title . ") ' . __('dashboard.by') . ' " . Auth::user()->full_name . "'",
                     'entity_type' => NotificationEntityType::TASK->value,
                     'entity_id' => $data['task_id'],
                 ]); 

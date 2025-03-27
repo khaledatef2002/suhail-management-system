@@ -22,6 +22,9 @@
 
                 <input type="checkbox" class="btn-check status_filter" id="done_status" checked="">
                 <label class="btn btn-outline-success" for="done_status">@lang('dashboard.done') <i class="ri-check-line"></i></label>
+                
+                <input type="checkbox" class="btn-check status_filter" id="out_of_date">
+                <label class="btn btn-outline-danger" for="out_of_date">@lang('dashboard.out-of-date') <i class="ri-check-line"></i></label>
             </div>
             @if (Auth::user()->hasAnyRole(['manager', 'admin']))
                 <a href="{{ route('dashboard.tasks.create') }}"><button class="btn btn-success"><i class="ri-add-fill me-1 align-bottom"></i> @lang('dashboard.add')</button></a>
@@ -66,6 +69,7 @@
                         d.working_status = document.querySelector("#working_status").checked
                         d.feedback_status = document.querySelector("#feedback_status").checked
                         d.done_status = document.querySelector("#done_status").checked
+                        d.out_of_date = document.querySelector("#out_of_date").checked
                     }
                 },
                 columns: [

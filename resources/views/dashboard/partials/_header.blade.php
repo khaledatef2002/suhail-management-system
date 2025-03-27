@@ -54,7 +54,7 @@
                             </div>
                         </div>
                         <div>
-                            @foreach (auth()->user()->unseen_notifications as $notification)
+                            @foreach (auth()->user()->unseen_notifications->sortByDesc('created_at') as $notification)
                                 <div class="text-reset notification-item d-block dropdown-item position-relative">
                                     <div class="d-flex">
                                         <div class="avatar-xs me-3 flex-shrink-0">
@@ -67,7 +67,7 @@
                                         <div class="flex-grow-1">
                                             <a href="{{ route('dashboard.notification.display', $notification) }}">
                                                 <h6 class="mt-0 mb-2 lh-base">
-                                                    {{ $notification->title }}
+                                                    {{ eval("echo ". $notification->title . ";") }}
                                                 </h6>
                                             </a>
                                             <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
@@ -77,6 +77,8 @@
                                     </div>
                                 </div>
                             @endforeach
+                            
+                                                
                         </div>
                     </div>
                 </div>

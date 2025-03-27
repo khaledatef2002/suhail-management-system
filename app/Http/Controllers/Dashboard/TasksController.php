@@ -10,6 +10,7 @@ use App\Mail\TaskDeletedMail;
 use App\Models\Attachment;
 use App\Models\Notification;
 use App\Models\Task;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -68,6 +69,11 @@ class TasksController extends Controller implements HasMiddleware
                 $status[] = TaskStatus::DONE->value;
             }
 
+            if($request->out_of_date == "true")
+            {
+                $tasks = $tasks->where('due_date', '<', now());
+            }
+
             $tasks = $tasks->whereIn('status', $status);
 
             return DataTables::of($tasks)
@@ -91,7 +97,7 @@ class TasksController extends Controller implements HasMiddleware
                 </div>";
             })
             ->editColumn('task', function(Task $task){
-                return truncatePost($task->title);
+                return truncatePost($task->title) . (Carbon::parse($task->due_date)->lt(now()) ? '<span class="ms-2 badge text-bg-danger py-1 px-1">'. __("dashboard.out-of-date") .'</span>' : "");
             })
             ->editColumn('assignee', function(Task $task){
                 return "
@@ -123,7 +129,7 @@ class TasksController extends Controller implements HasMiddleware
                     TaskStatus::DONE->value => '<span class="badge text-bg-success">'. __('dashboard.done') .'</span>',
                 };
             })
-            ->rawColumns(['assignee', 'creator', 'status', 'action'])
+            ->rawColumns(['task', 'assignee', 'creator', 'status', 'action'])
             ->make(true);
         }
         
@@ -155,6 +161,9 @@ class TasksController extends Controller implements HasMiddleware
 
         $task = Task::create($data);
 
+        $task->due_date = $data['due_date'];
+        $task->save();
+
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
                 $path = $file->store('attachments', 'public');
@@ -172,7 +181,7 @@ class TasksController extends Controller implements HasMiddleware
 
         Notification::create([
             'user_id' => $data['assignee_id'],
-            'title' => __('dashboard.new-task-created') . " (" . $task->title . ") " . __('dashboard.by') . " " . $task->creator->full_name . " " . __('dashboard.due_to') . " " . $task->due_date,
+            'title' => "__('dashboard.new-task-created') . ' (" . $task->title . ")' .  __('dashboard.by') . ' ". $task->creator->full_name . " ' . __('dashboard.due_to') . '" . $task->due_date . "'",
             'entity_type' => NotificationEntityType::TASK->value,
             'entity_id' => $task->id,
         ]);
@@ -263,7 +272,7 @@ class TasksController extends Controller implements HasMiddleware
             {
                 Notification::create([
                     'user_id' => $data['assignee_id'],
-                    'title' => Auth::user()->full_name . " " . __('dashboard.assigned_the_task') . " (" . $task->title . ") " . " " . __('dashboard.for_you'),
+                    'title' => "'" . Auth::user()->full_name . " ' . __('dashboard.assigned_the_task') . ' (" . $task->title . ") ' . __('dashboard.for_you')",
                     'entity_type' => NotificationEntityType::TASK->value,
                     'entity_id' => $task->id,
                 ]); 
@@ -272,7 +281,7 @@ class TasksController extends Controller implements HasMiddleware
             {
                 Notification::create([
                     'user_id' => $data['assignee_id'],
-                    'title' => Auth::user()->full_name . " " . __('dashboard.changed_the_status_of_task_from') . " (" . __('dashboard.' . $task->status) . ") " . __('dashboard.to') . " " . __('dashboard.' . $data['status']),
+                    'title' => "'" . Auth::user()->full_name . " ' . __('dashboard.changed_the_status_of_task_from') . ' (' . __('dashboard.". $task->status ."') . ') ' . __('dashboard.to') . ' ' . __('dashboard.". $data['status'] ."')",
                     'entity_type' => NotificationEntityType::TASK->value,
                     'entity_id' => $task->id,
                 ]); 
@@ -281,13 +290,15 @@ class TasksController extends Controller implements HasMiddleware
             {
                 Notification::create([
                     'user_id' => $data['assignee_id'],
-                    'title' => Auth::user()->full_name . " " . __('dashboard.updated_the_task') . " (" . $task->title . ") ",
+                    'title' => "'" . Auth::user()->full_name . " '. __('dashboard.updated_the_task') . ' ( ". $task->title ." )'",
                     'entity_type' => NotificationEntityType::TASK->value,
                     'entity_id' => $task->id,
                 ]); 
             }
 
             $task->update($data);
+            $task->due_date = $data['due_date'];
+            $task->save();
 
             return response()->json(
                 [
@@ -325,7 +336,7 @@ class TasksController extends Controller implements HasMiddleware
     
             Notification::create([
                 'user_id' => $task->assignee->id,
-                'title' => __('dashboard.the_task') . " (" . $task->title . ") " . __('dashboard.has_been_deleted'),
+                'title' => "__('dashboard.the_task') . ' (" . $task->title . ") '.  __('dashboard.has_been_deleted')",
                 'entity_type' => NotificationEntityType::TASK->value,
                 'entity_id' => $task->id,
             ]);
@@ -345,20 +356,39 @@ class TasksController extends Controller implements HasMiddleware
             'status' => ['required', 'in:' . TaskStatus::NEW->value . "," . TaskStatus::WORKING->value . "," . TaskStatus::REVIEW->value . "," . TaskStatus::FEEDBACK->value . "," . TaskStatus::DONE->value]
         ]);
 
-        if(in_array($data['status'], [TaskStatus::FEEDBACK->value, TaskStatus::DONE->value]) && (!(Auth::user()->hasRole('manager') || Auth::user()->id == $task->creator->id)))
+        if(in_array($data['status'], [TaskStatus::FEEDBACK->value, TaskStatus::DONE->value, TaskStatus::NEW->value]) && (!(Auth::user()->hasRole('manager') || Auth::user()->id == $task->creator->id)))
         {
             return response(401);
         }
 
+        if($task->status == TaskStatus::REVIEW->value)
+        {
+            return response(401);
+        }
+
+        if($data['status'] == TaskStatus::DONE->value || $data['status'] == TaskStatus::FEEDBACK->value)
+        {
+            Notification::create([
+                'user_id' => $task->assignee->id,
+                'title' => "'" .Auth::user()->full_name ." ' ." . " __('dashboard.changed_the_status_of_task_from') . ' ( ' . __('dashboard.". $task->status ."').' ) '. __('dashboard.to').' ( '. __('dashboard.". $data['status'] ."').' )'",
+                'entity_type' => NotificationEntityType::TASK->value,
+                'entity_id' => $task->id,
+            ]); 
+        }
+
+        if($data['status'] == TaskStatus::REVIEW->value)
+        {
+            Notification::create([
+                'user_id' => $task->assignee->id,
+                'title' => "'" .Auth::user()->full_name ."' ." . " __('dashboard.changed_the_status_of_task_from') . ' ( ' . __('dashboard.". $task->status ."').' ) '. __('dashboard.to').' ( '. __('dashboard.". $data['status'] ."').' )'",
+                'entity_type' => NotificationEntityType::TASK->value,
+                'entity_id' => $task->id,
+            ]); 
+        }
+
         $task->status = $data['status'];
         $task->save();
-
-        Notification::create([
-            'user_id' => $task->assignee->id,
-            'title' => Auth::user()->full_name . __('dashboard.changed_the_status_of_task_from') . " (" . __('dashboard.' . $task->status) . ") " . __('dashboard.to') . " " . __('dashboard.' . $data['status']),
-            'entity_type' => NotificationEntityType::TASK->value,
-            'entity_id' => $task->id,
-        ]); 
+        
 
         return response()->json(['message' => __('dashboard.task_status_updated')]);
     }

@@ -101,4 +101,5 @@ return [
 
     'new-message-added_to_the_task' => 'A new message have been added to the task',
     'by' => 'By',
+    'out-of-date' => 'Out of due date',
 ];
