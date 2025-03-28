@@ -46,7 +46,7 @@ class SystemSettingsController extends Controller implements HasMiddleware
 
         if($request->hasFile('logo'))
         {
-            if($settings->logo)
+            if($settings->logo && file_exists(public_path('storage/' . $settings->logo)))
             {
                 unlink(public_path('storage/' . $settings->logo));
             }
