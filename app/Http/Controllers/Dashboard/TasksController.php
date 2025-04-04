@@ -356,12 +356,12 @@ class TasksController extends Controller implements HasMiddleware
             'status' => ['required', 'in:' . TaskStatus::NEW->value . "," . TaskStatus::WORKING->value . "," . TaskStatus::REVIEW->value . "," . TaskStatus::FEEDBACK->value . "," . TaskStatus::DONE->value]
         ]);
 
-        if(in_array($data['status'], [TaskStatus::FEEDBACK->value, TaskStatus::DONE->value, TaskStatus::NEW->value]) && (!(Auth::user()->hasRole('manager') || Auth::user()->id == $task->creator->id)))
+        if(in_array($data['status'], [TaskStatus::FEEDBACK->value, TaskStatus::DONE->value, TaskStatus::NEW->value]) && !(Auth::user()->hasRole('manager') || Auth::user()->id == $task->creator->id))
         {
             return response(401);
         }
 
-        if($task->status == TaskStatus::REVIEW->value)
+        if($task->status == TaskStatus::REVIEW->value && !(Auth::user()->hasRole('manager') || Auth::user()->id == $task->creator->id))
         {
             return response(401);
         }
@@ -376,10 +376,10 @@ class TasksController extends Controller implements HasMiddleware
             ]); 
         }
 
-        if($data['status'] == TaskStatus::REVIEW->value)
+        if($data['status'] == TaskStatus::REVIEW->value || $data['status'] == TaskStatus::WORKING->value)
         {
             Notification::create([
-                'user_id' => $task->assignee->id,
+                'user_id' => $task->creator->id,
                 'title' => "'" .Auth::user()->full_name ."' ." . " __('dashboard.changed_the_status_of_task_from') . ' ( ' . __('dashboard.". $task->status ."').' ) '. __('dashboard.to').' ( '. __('dashboard.". $data['status'] ."').' )'",
                 'entity_type' => NotificationEntityType::TASK->value,
                 'entity_id' => $task->id,
