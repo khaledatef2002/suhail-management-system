@@ -181,7 +181,7 @@ class TasksController extends Controller implements HasMiddleware
 
         Notification::create([
             'user_id' => $data['assignee_id'],
-            'title' => "__('dashboard.new-task-created') . ' (" . $task->title . ")' .  __('dashboard.by') . ' ". $task->creator->full_name . " ' . __('dashboard.due_to') . '" . $task->due_date . "'",
+            'title' => "__('dashboard.new-task-created') . ' (" . htmlspecialchars($task->title) . ")' .  __('dashboard.by') . ' ". $task->creator->full_name . " ' . __('dashboard.due_to') . '" . $task->due_date . "'",
             'entity_type' => NotificationEntityType::TASK->value,
             'entity_id' => $task->id,
         ]);
@@ -272,7 +272,7 @@ class TasksController extends Controller implements HasMiddleware
             {
                 Notification::create([
                     'user_id' => $data['assignee_id'],
-                    'title' => "'" . Auth::user()->full_name . " ' . __('dashboard.assigned_the_task') . ' (" . $task->title . ") ' . __('dashboard.for_you')",
+                    'title' => "'" . Auth::user()->full_name . " ' . __('dashboard.assigned_the_task') . ' (" . htmlspecialchars($task->title) . ") ' . __('dashboard.for_you')",
                     'entity_type' => NotificationEntityType::TASK->value,
                     'entity_id' => $task->id,
                 ]); 
@@ -290,7 +290,7 @@ class TasksController extends Controller implements HasMiddleware
             {
                 Notification::create([
                     'user_id' => $data['assignee_id'],
-                    'title' => "'" . Auth::user()->full_name . " '. __('dashboard.updated_the_task') . ' ( ". $task->title ." )'",
+                    'title' => "'" . Auth::user()->full_name . " '. __('dashboard.updated_the_task') . ' ( ". htmlspecialchars($task->title) ." )'",
                     'entity_type' => NotificationEntityType::TASK->value,
                     'entity_id' => $task->id,
                 ]); 
@@ -336,7 +336,7 @@ class TasksController extends Controller implements HasMiddleware
     
             Notification::create([
                 'user_id' => $task->assignee->id,
-                'title' => "__('dashboard.the_task') . ' (" . $task->title . ") '.  __('dashboard.has_been_deleted')",
+                'title' => "__('dashboard.the_task') . ' (" . htmlspecialchars($task->title) . ") '.  __('dashboard.has_been_deleted')",
                 'entity_type' => NotificationEntityType::TASK->value,
                 'entity_id' => $task->id,
             ]);

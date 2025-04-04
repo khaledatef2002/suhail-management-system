@@ -80,7 +80,7 @@ class TaskMessagesController extends Controller
             {
                 Notification::create([
                     'user_id' => $user,
-                    'title' => "__('dashboard.new-message-added_to_the_task') . ' ('" . $message->task->title . ") ' . __('dashboard.by') . ' " . Auth::user()->full_name . "'",
+                    'title' => "__('dashboard.new-message-added_to_the_task') . ' (" . htmlspecialchars($message->task->title) . ") ' . __('dashboard.by') . ' " . Auth::user()->full_name . "'",
                     'entity_type' => NotificationEntityType::TASK->value,
                     'entity_id' => $data['task_id'],
                 ]); 
