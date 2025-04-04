@@ -86,7 +86,7 @@ class TasksController extends Controller implements HasMiddleware
                 (Auth::user()->hasRole('manager') || Auth::user()->id == $row['creator_id'] ?
                 "
                     <a href='" . route('dashboard.tasks.edit', $row) . "'><i class='ri-settings-5-line fs-4' type='submit'></i></a>
-                ":"")
+                "
                 .
                 "
                     <form data-id='".$row['id']."' onsubmit='remove_user(event)'>
@@ -94,7 +94,7 @@ class TasksController extends Controller implements HasMiddleware
                         <input type='hidden' name='_token' value='" . csrf_token() . "'>
                         <button class='remove_button' type='button'><i class='ri-delete-bin-5-line text-danger fs-4'></i></button>
                     </form>
-                </div>";
+                </div>":"");
             })
             ->editColumn('task', function(Task $task){
                 return truncatePost($task->title) . (Carbon::parse($task->due_date)->lt(now()) ? '<span class="ms-2 badge text-bg-danger py-1 px-1">'. __("dashboard.out-of-date") .'</span>' : "");
