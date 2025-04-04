@@ -11,10 +11,10 @@
                     <input x-model="status" x-bind:checked="status == 'new'" x-bind:disabled="is_assignee" type="radio" name="status" value="{{ App\Enum\TaskStatus::NEW->value }}" class="btn-check" id="new">
                     <label class="btn btn-outline-dark" for="new">@lang('dashboard.new') <i class="ri-check-line"></i></label>
                     
-                    <input x-model="status" x-bind:checked="status == 'working'" x-bind:disabled="is_assignee && status == 'review'" type="radio" name="status" value="{{ App\Enum\TaskStatus::WORKING->value }}" class="btn-check" id="working" >
+                    <input x-model="status" x-bind:checked="status == 'working'" x-bind:disabled="(is_assignee && status == 'review') || (is_assignee && status == 'done')" type="radio" name="status" value="{{ App\Enum\TaskStatus::WORKING->value }}" class="btn-check" id="working" >
                     <label class="btn btn-outline-primary" for="working">@lang('dashboard.working') <i class="ri-check-line"></i></label>
                     
-                    <input x-model="status" x-bind:checked="status == 'review'" type="radio" name="status" value="{{ App\Enum\TaskStatus::REVIEW->value }}" class="btn-check" id="review">
+                    <input x-model="status" x-bind:checked="status == 'review'" x-bind:disabled="is_assignee && status == 'done'" type="radio" name="status" value="{{ App\Enum\TaskStatus::REVIEW->value }}" class="btn-check" id="review">
                     <label class="btn btn-outline-warning" for="review">@lang('dashboard.review') <i class="ri-check-line"></i></label>
     
                     <input x-model="status" x-bind:checked="status == 'feedback'" x-bind:disabled="is_assignee" type="radio" name="status" value="{{ App\Enum\TaskStatus::FEEDBACK->value }}" class="btn-check" id="feedback">

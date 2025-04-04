@@ -356,6 +356,11 @@ class TasksController extends Controller implements HasMiddleware
             'status' => ['required', 'in:' . TaskStatus::NEW->value . "," . TaskStatus::WORKING->value . "," . TaskStatus::REVIEW->value . "," . TaskStatus::FEEDBACK->value . "," . TaskStatus::DONE->value]
         ]);
 
+        if($task->status == TaskStatus::DONE->value && !(Auth::user()->hasRole('manager') || Auth::user()->id == $task->creator->id))
+        {
+            return response(401);
+        }
+
         if(in_array($data['status'], [TaskStatus::FEEDBACK->value, TaskStatus::DONE->value, TaskStatus::NEW->value]) && !(Auth::user()->hasRole('manager') || Auth::user()->id == $task->creator->id))
         {
             return response(401);
