@@ -104,4 +104,6 @@ return [
     'new-message-added_to_the_task' => 'تمت إضافة رسالة جديدة إلى المهمة',
     'by' => 'بواسطة',
     'out-of-date' => 'تخطى الموعد',
+
+    'notifications ' => 'الإشعارات',
 ];

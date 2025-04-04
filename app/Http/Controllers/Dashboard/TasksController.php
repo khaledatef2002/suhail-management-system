@@ -385,7 +385,7 @@ class TasksController extends Controller implements HasMiddleware
         {
             Notification::create([
                 'user_id' => $task->creator->id,
-                'title' => "'" .Auth::user()->full_name ."' ." . " __('dashboard.changed_the_status_of_task_from') . ' ( ' . __('dashboard.". $task->status ."').' ) '. __('dashboard.to').' ( '. __('dashboard.". $data['status'] ."').' )'",
+                'title' => "'" .Auth::user()->full_name ." ' ." . " __('dashboard.changed_the_status_of_task_from') . ' ( ' . __('dashboard.". $task->status ."').' ) '. __('dashboard.to').' ( '. __('dashboard.". $data['status'] ."').' )'",
                 'entity_type' => NotificationEntityType::TASK->value,
                 'entity_id' => $task->id,
             ]); 
