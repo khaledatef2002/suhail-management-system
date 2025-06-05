@@ -71,7 +71,9 @@ class TasksController extends Controller implements HasMiddleware
 
             if($request->out_of_date == "true")
             {
-                $tasks = $tasks->where('due_date', '<', now());
+                $tasks = $tasks->where('due_date', '<', now())->where(function($query){
+                    return $query->where('status', "!=", TaskStatus::REVIEW->value)->Where('status', "!=", TaskStatus::DONE->value);
+                });
             }
 
             $tasks = $tasks->whereIn('status', $status);
@@ -97,7 +99,7 @@ class TasksController extends Controller implements HasMiddleware
                 </div>":"");
             })
             ->editColumn('task', function(Task $task){
-                return truncatePost($task->title) . (Carbon::parse($task->due_date)->lt(now()) ? '<span class="ms-2 badge text-bg-danger py-1 px-1">'. __("dashboard.out-of-date") .'</span>' : "");
+                return truncatePost($task->title) . (Carbon::parse($task->due_date)->lt(now()) && $task->status != TaskStatus::DONE->value && $task->status != TaskStatus::REVIEW->value ? '<span class="ms-2 badge text-bg-danger py-1 px-1">'. __("dashboard.out-of-date") .'</span>' : "");
             })
             ->editColumn('assignee', function(Task $task){
                 return "
